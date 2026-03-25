@@ -3,6 +3,7 @@ from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data, QoSProfile, QoSDurabilityPolicy
 
 from vision_msgs.msg import Detection2DArray, LabelInfo
+from std_msgs.msg import Float32
 
 from ros2_pydata import from_detection2d_array, from_label_info
 
@@ -32,6 +33,13 @@ class PerceptionSpeedGuard(Node):
             Detection2DArray,
             '/detections_2d',
             self.detection_callback,
+            self.qos_profile,
+        )
+
+        # Speed limit publisher
+        self.speed_limit_pub = self.create_publisher(
+            Float32,
+            '/speed_limit',
             self.qos_profile,
         )
 
